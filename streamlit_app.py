@@ -5,8 +5,6 @@ import pickle
 
 # Good code
 
-
-
 st.set_page_config(
     page_title="Compare Parsers",
     layout="wide"
