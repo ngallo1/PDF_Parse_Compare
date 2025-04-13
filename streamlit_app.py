@@ -1,18 +1,6 @@
 import streamlit as st
 import pickle
 
-# Test
-# Test - Bryce
-# Test - Bryce 2222222
-# Test - Bryce 3
-
-# Test - Nick
-# Test - Nick 2
-# Test - Nick 3
-# Test - Nick 4
-
-
-
 st.set_page_config(
     page_title="Compare Parsers",
     layout="wide"
