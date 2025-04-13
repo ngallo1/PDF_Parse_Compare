@@ -5,7 +5,7 @@ st.set_page_config(
     page_title="Compare Parsers",
     layout="wide"
 )
-
+ 
 st.header("Compare PDF Parse")
 
 st.write("Compare the PDF parse of different parsers")
