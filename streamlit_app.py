@@ -3,6 +3,14 @@ import pickle
 
 # Test 5
 
+# Begin Bad code
+# Test
+# Test
+# Test
+# Test#
+# Test
+# End bad code
+
 st.set_page_config(
     page_title="Compare Parsers",
     layout="wide"
