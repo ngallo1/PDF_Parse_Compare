@@ -69,6 +69,7 @@ with st.sidebar:
 
 markdowns = get_different_parses_of_document(document_name, as_markdown=True)
  
+
 # tabs = st.tabs(parsers)
 # for parser, tab in zip(parsers, tabs):
 #     st.markdown(markdowns[parser])
