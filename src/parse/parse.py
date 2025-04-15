@@ -4,14 +4,13 @@ Parse all of the documents in our database with all of the parsers.
 from dotenv import load_dotenv
 
 # Bring in parsinng libraries
+from unstructured.partition.pdf import partition_pdf
 from llama_cloud_services import LlamaParse
 from mistralai import Mistral
 
 # Need this?
 # from llama_parse import LlamaParse
 # from llama_index.core import SimpleDirectoryReader
-
-
 
 load_dotenv()
 
@@ -56,8 +55,33 @@ def mistral_pdf_process(filename):
 def docling_pdf_process(filename, opts=None):
     pass
 
-def unstructured_pdf_process(filename, opts=None):
-    pass
+def unstructured_pdf_process(filename, strategy="fast", opts=None):
+    """
+    Process a PDF file using unstructured library and return markdown content.
+    
+    Required Libraries:
+        pdfminer.six
+        unstructured.partition.pdf
+        pi_heif
+        unstructured_inference
+        pdf2image
+    Args:
+        filename (str): Path to the PDF file
+        opts (dict, optional): Additional options for processing
+        
+    Returns:
+        str: Markdown formatted text content
+    """
+    
+    elements = partition_pdf(
+        filename=filename,
+        strategy=strategy, 
+        extract_images_in_pdf=True
+    )
+    
+    markdown_content = "\n\n".join(str(element) for element in elements)
+    
+    return markdown_content
 
 def calqwen_pdf_process(filename, opts=None):
     pass
@@ -67,4 +91,3 @@ def pdf_process(service_name, opts=None):
     Main function to process a PDF using one of the services
     """
     pass
-
