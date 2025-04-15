@@ -1,8 +1,6 @@
 """
-Parse all of the documents in our database with all of the parsers
+Parse all of the documents in our database with all of the parsers.
 """
-import os
-from pathlib import Path
 from dotenv import load_dotenv
 
 # Bring in parsinng libraries
@@ -20,11 +18,11 @@ load_dotenv()
 import nest_asyncio; nest_asyncio.apply()  # Need for LlamaParse loop?
 
 
-
 def llama_pdf_process(filename):
     """
     Process the pdf with LlamaParse
     """
+    # TODO: sample code?
     return LlamaParse(result_type="markdown").load_data(filename)
 
 
@@ -56,41 +54,13 @@ def mistral_pdf_process(filename):
     )
 
 
-def docling_pdf_process(filename):
-    pass
-
-def pdf_process_directory(directory, parser_name):
-    """
-    Process all PDFs in the directory with a specific parser.
-    TODO: where to store the results
-    """
-    # TODO: links to online sources showing how to parse this
-    p = Path(directory)
-    filenames = sorted(list(p.glob('*.pdf')))
-
-    parse = {
-        "Llama": llama_pdf_process,
-        "Mistral": mistral_pdf_process,
-    }[parser_name]
-
-
-    documents = {}
-    for filename in filenames:
-        print(filename.stem)
-        documents[filename.stem] = parse(filename)
-    return documents
-
-
-
-def pdf_parse_with_all_parsers(filename):
-    """
-    Parse one file with all parsers.
-    
-    Future Usage: Someone can upload a pdf, run it through all parsers and visualize results with GUI to compare
-    TODO: highlight
-    """
+def docling_pdf_process(filename, opts=None):
     pass
 
 
+def pdf_process(service_name, opts=None):
+    """
+    Main function to process a PDF using one of the services
+    """
+    pass
 
-DATA_DIRECTORY = "<Your data directory>"
