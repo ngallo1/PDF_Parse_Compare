@@ -53,10 +53,14 @@ def mistral_pdf_process(filename):
         }
     )
 
-
 def docling_pdf_process(filename, opts=None):
     pass
 
+def unstructured_pdf_process(filename, opts=None):
+    pass
+
+def calqwen_pdf_process(filename, opts=None):
+    pass
 
 def pdf_process(service_name, opts=None):
     """
