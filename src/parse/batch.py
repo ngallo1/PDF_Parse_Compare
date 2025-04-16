@@ -14,7 +14,7 @@ import pickle
 
 # Development: place-holder processing function
 def pdf_process(filename, parsername):
-    return f"TODO: parse for filename={filename}, and parsername={parsername}"
+    return f"TODO: ------   Parse for filename={filename.stem} AND parsername={parsername}  -------"
 
 PARSERS = ["Docling", "LlamaParse", "Mistral"]
 

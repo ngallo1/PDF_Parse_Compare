@@ -9,37 +9,39 @@ st.header("Compare PDF Parse")
 st.write("Compare the PDF parse of different parsers")
 
 
-# from src.database import db_path
-# conn = 
+from src.database import db_path
 
+with sqlite3.connect(db_path) as conn:
+    
+    # Get the result of row as value not tuple
+    # https://stackoverflow.com/questions/2854011/get-a-list-of-field-values-from-pythons-sqlite3-not-tuples-representing-rows
+    conn.row_factory = lambda cursor, row: row[0]
 
+    cursor = conn.cursor()
+    n = cursor.execute('''SELECT COUNT (*) from pdf_parse''').fetchone()
+    
+    filenames = cursor.execute('''SELECT DISTINCT (filename) from pdf_parse''').fetchall()
+    parsernames = cursor.execute('''SELECT DISTINCT (parsername) from pdf_parse''').fetchall()
 
-# ---------   Data 
-@st.cache_data
-def load_parsed_documents():
-    """Load documents already parsed with different parsers."""
+    
+    # Select filename and parser result to view
+    with st.sidebar:
+        filename = st.selectbox("Document Name", options=filenames)
+        parsername = st.selectbox("Parser", options=parsernames)
+    
+    result = cursor.execute(
+        '''SELECT (result) from pdf_parse WHERE filename = ? AND parsername = ?''',
+        (filename, parsername)
+    ).fetchone()
+    
+    # unpickle data to get python object
     import pickle
+    result = pickle.loads(result)
 
-    pickle_filenames = {
-        'Docling': './data/docling_docs.pkl',
-        'Mistral': './data/mistral_docs.pkl',
-        'Llama': './data/llama_docs.pkl',
-    }
-
-    parsed_documents = {}
-    for parser_name, filename in pickle_filenames.items():
-        with open(filename, 'rb') as f:
-            parsed_documents[parser_name] = pickle.load(f)
-
-    return parsed_documents
+    st.write(result)
 
 
-parsed_documents = load_parsed_documents()
-parsers = list(parsed_documents.keys())
-# TODO: ensure all are the same
-DB_DOCUMENT_NAMES = parsed_documents[parsers[0]].keys()
-
-def get_different_parses_of_document(document_name, as_markdown=False):
+def get_markdown(document, parsername):
     def get_markdown_llama(document):
         return "\n\n".join(page.text for page in document)
     
@@ -55,33 +57,5 @@ def get_different_parses_of_document(document_name, as_markdown=False):
         "Docling": get_markdown_docling,
     }
 
-    out = {}
-    for parser in parsers:
-        out[parser] = parsed_documents[parser][document_name]
-        if as_markdown:
-            out[parser] = markdown_funcs[parser](out[parser])
+    return markdown_funcs[parsername]
 
-    return out
-
-with st.sidebar:
-    document_name = st.selectbox("Document Name", options=DB_DOCUMENT_NAMES)
-    parser = st.selectbox("Parser", options=parsers)
-
-markdowns = get_different_parses_of_document(document_name, as_markdown=True)
- 
-
-# tabs = st.tabs(parsers)
-# for parser, tab in zip(parsers, tabs):
-#     st.markdown(markdowns[parser])
-st.divider()
-st.markdown(markdowns[parser])
-
-# print(tabs[0])
-
-#print(documents)
-# st.write(document_name)
-
-
-
-#st.write(DB_DOCUMENT_NAMES)
-#st.write(parsed_documents[parser].keys() for parser in parsers)
