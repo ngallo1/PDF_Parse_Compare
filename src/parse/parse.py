@@ -14,6 +14,11 @@ from mistralai import Mistral
 
 load_dotenv()
 
+
+PARSERS = ["Docling", "LlamaParse", "Mistral"]
+
+
+
 import nest_asyncio; nest_asyncio.apply()  # Need for LlamaParse loop?
 
 

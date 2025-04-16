@@ -2,11 +2,17 @@
 Compare the results of different parsers
 """
 import streamlit as st
+import sqlite3
 
 
 st.header("Compare PDF Parse")
-
 st.write("Compare the PDF parse of different parsers")
+
+
+# from src.database import db_path
+# conn = 
+
+
 
 # ---------   Data 
 @st.cache_data
